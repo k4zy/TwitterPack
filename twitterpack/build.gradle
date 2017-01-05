@@ -6,7 +6,8 @@ Properties props = new Properties()
 try {
     props.load(file("$rootDir/twitter.properties").newDataInputStream())
 } catch (Exception ex) {
-    throw new GradleException("Missing twitter.properties, check the twitter.properties.sample file.");
+    props.setProperty("ConsumerKey", "DummyKey")
+    props.setProperty("ConsumerSecret", "DummySecret")
 }
 
 android {
@@ -20,11 +21,11 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("consumerKey")}\""
+            buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("ConsumerKey")}\""
             buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("ConsumerSecret")}\""
         }
         release {
-            buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("consumerKey")}\""
+            buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("ConsumerKey")}\""
             buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("ConsumerSecret")}\""
         }
     }
