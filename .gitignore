@@ -42,3 +42,5 @@ signing.gradle
 vendor/bundle
 
 .DS_Store
+
+twitter.properties
