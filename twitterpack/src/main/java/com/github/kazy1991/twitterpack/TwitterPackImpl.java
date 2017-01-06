@@ -35,8 +35,11 @@ public class TwitterPackImpl implements TwitterPack {
 
     private SharedPreferences sharedPreferences; // todo: security issue
 
-    public TwitterPackImpl(Context context) {
+    private TwitterAuthConfig authConfig;
+
+    public TwitterPackImpl(Context context, TwitterAuthConfig authConfig) {
         this.sharedPreferences = context.getSharedPreferences("TwitterPack", Context.MODE_PRIVATE);
+        this.authConfig = authConfig;
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new Oauth2Interceptor(sharedPreferences))
                 .build();
@@ -70,13 +73,14 @@ public class TwitterPackImpl implements TwitterPack {
     }
 
     public Flowable<Oauth2Response> auth() {
-        return oauth2Service.auth("Basic " + basicToken(), "client_credentials").doOnNext(new Consumer<Oauth2Response>() {
-            @SuppressLint("CommitPrefEdits")
-            @Override
-            public void accept(Oauth2Response oauth2Response) throws Exception {
-                sharedPreferences.edit().putString("ACCESS_TOKEN", oauth2Response.getAccessToken()).commit();
-            }
-        });
+        return oauth2Service.auth("Basic " + basicToken(), "client_credentials")
+                .doOnNext(new Consumer<Oauth2Response>() {
+                    @SuppressLint("CommitPrefEdits")
+                    @Override
+                    public void accept(Oauth2Response oauth2Response) throws Exception {
+                        sharedPreferences.edit().putString("ACCESS_TOKEN", oauth2Response.getAccessToken()).commit();
+                    }
+                });
     }
 
     private String basicToken() {
@@ -84,7 +88,7 @@ public class TwitterPackImpl implements TwitterPack {
     }
 
     private String baseString() {
-        return BuildConfig.CONSUMER_KEY + ":" + BuildConfig.CONSUMER_SECRET;
+        return authConfig.getConsumerKey() + ":" + authConfig.getConsumerSecret();
     }
 
 }

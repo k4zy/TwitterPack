@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+Properties props = new Properties()
+try {
+    props.load(file("$rootDir/twitter.properties").newDataInputStream())
+} catch (Exception ex) {
+    props.setProperty("ConsumerKey", "DummyKey")
+    props.setProperty("ConsumerSecret", "DummySecret")
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -16,6 +24,16 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("ConsumerKey")}\""
+            buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("ConsumerSecret")}\""
+        }
+        release {
+            buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("ConsumerKey")}\""
+            buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("ConsumerSecret")}\""
+        }
     }
 }
 
