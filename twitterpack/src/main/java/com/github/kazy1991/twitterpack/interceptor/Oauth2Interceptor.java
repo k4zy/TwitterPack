@@ -1,6 +1,6 @@
 package com.github.kazy1991.twitterpack.interceptor;
 
-import android.content.SharedPreferences;
+import com.github.kazy1991.twitterpack.storage.SecureTokenStorage;
 
 import java.io.IOException;
 
@@ -10,10 +10,10 @@ import okhttp3.Response;
 
 public class Oauth2Interceptor implements Interceptor {
 
-    final private SharedPreferences sharedPreferences;
+    final private SecureTokenStorage secureTokenStorage;
 
-    public Oauth2Interceptor(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
+    public Oauth2Interceptor(SecureTokenStorage secureTokenStorage) {
+        this.secureTokenStorage = secureTokenStorage;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Oauth2Interceptor implements Interceptor {
 
     private Response bearerAuthProceed(Chain chain) throws IOException {
         Request.Builder builder = chain.request().newBuilder();
-        String accessToken = sharedPreferences.getString("ACCESS_TOKEN", null);
+        String accessToken = secureTokenStorage.getAccessToken();
         if (accessToken != null) {
             builder.addHeader("Authorization", "Bearer " + accessToken);
         }
