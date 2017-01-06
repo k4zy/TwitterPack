@@ -3,6 +3,7 @@ package com.github.kazy1991.twitterpack.sample;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.kazy1991.twitterpack.TwitterAuthConfig;
 import com.github.kazy1991.twitterpack.TwitterPack;
 import com.github.kazy1991.twitterpack.TwitterPackImpl;
 
@@ -16,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TwitterPack twitterPack = new TwitterPackImpl(this);
+        TwitterAuthConfig authConfig =
+                new TwitterAuthConfig(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET);
+        TwitterPack twitterPack = new TwitterPackImpl(this, authConfig);
 
         findViewById(R.id.text_view).setOnClickListener(it -> {
             Disposable disposable = twitterPack.fetchFavorite("101kaz")
