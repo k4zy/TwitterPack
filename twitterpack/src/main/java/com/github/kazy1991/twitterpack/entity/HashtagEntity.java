@@ -7,4 +7,8 @@ public class HashtagEntity {
 
     @SerializedName("text")
     String text;
+
+    public String getText() {
+        return text;
+    }
 }

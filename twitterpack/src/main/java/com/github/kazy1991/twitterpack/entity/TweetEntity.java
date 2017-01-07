@@ -74,6 +74,21 @@ public class TweetEntity {
         @SerializedName("hashtags")
         List<HashtagEntity> hashtags;
 
+        public List<UrlEntity> getUrls() {
+            return urls;
+        }
+
+        public List<MentionEntity> getUserMentions() {
+            return userMentions;
+        }
+
+        public List<MediaEntity> getMedia() {
+            return media;
+        }
+
+        public List<HashtagEntity> getHashtags() {
+            return hashtags;
+        }
     }
 
     public LocalDateTime getCreatedAt() {
