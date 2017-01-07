@@ -203,6 +203,14 @@ public class UserEntity {
         return isTranslationEnabled;
     }
 
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public String getProfileImageUrlHttps() {
+        return profileImageUrlHttps;
+    }
+
     public String getProfileBackgroundColor() {
         return profileBackgroundColor;
     }
